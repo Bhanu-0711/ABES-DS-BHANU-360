@@ -39,13 +39,13 @@ int main(){
     cout<<endl;
     cout<<"Capacity of vector: "<<v.capacity()<<endl;
     cout<<"size of vector: "<<v.size()<<endl;
-    //2
+    //3
     v.insert(v.begin()+3,3,11);
     for(auto value:v)
         cout<<value<<" ";
     cout<<endl;
     
-    //for deleting elements from start and last one is excluded from deleation
+    //for deleting elements from start and last one is excluded from deletion
     v.erase(v.begin(),v.begin()+3);
     for(auto value:v)
         cout<<value<<" ";
