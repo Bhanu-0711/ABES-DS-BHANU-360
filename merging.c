@@ -1,4 +1,4 @@
-//Merging of two sorted arrays
+//Merging of two sorted arrays using two pointer method
 #include<stdio.h>
 int main(){
     int a[3]={1,2,6};
