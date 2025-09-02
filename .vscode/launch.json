@@ -8,10 +8,10 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/bhanu/Desktop/ABES-DSA-BHANU-360/index.c",
-      "program": "c:/Users/bhanu/Desktop/ABES-DSA-BHANU-360/index.c/build/Debug/outDebug",
+      "cwd": "c:/Users/bhanu/Desktop/ABES-DSA-BHANU-360",
+      "program": "c:/Users/bhanu/Desktop/ABES-DSA-BHANU-360/build/Debug/outDebug",
       "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
+      "miDebuggerPath": "C:/MinGW/bin/gdb.exe",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
