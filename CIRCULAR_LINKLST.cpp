@@ -7,6 +7,7 @@ struct node{
 };
 
 struct node *start=NULL;
+struct node *last=NULL;
 
 struct node *getNode(){
     struct node *p=new node();
@@ -14,11 +15,21 @@ struct node *getNode(){
     return p;
 }
 
-void Travaersal(struct node *start){
+void Traversal(struct node *start){
     struct node *p=start;
-    while(p->next!=NULL){
+    while(p!=start){
         cout<<p->data<<" ";
         p=p->next;
+    }
+    cout<<endl;
+}
+int cnt;
+struct node *count(struct node *start){
+    cnt = 0;
+    struct node *temp=start;
+    while(temp->next!=NULL){
+        cnt++;
+        temp=temp->next;
     }
     return start;
 }
@@ -26,9 +37,18 @@ void Travaersal(struct node *start){
 struct node *Insbeg(struct node *start,int x){
     struct node *p=getNode();
     p->data=x;
-    start->next=p;
+    p->next=start;
     start=p;
     return start;
+}
+
+void search(struct node *start,int x){
+    struct node *p=start;
+    while(p!=NULL && p->data!=x){
+        p=p->next;
+    }
+    if(p->data==x) cout<<"The element was found"<<endl;
+    else cout<<"Element was not present"<<endl;
 }
 
 struct node *Insafter(struct node *start,int key,int x){
@@ -39,7 +59,7 @@ struct node *Insafter(struct node *start,int key,int x){
         temp=temp->next;
     }
     if(temp == NULL){
-        cout<<"There is no node with key"<<key<<endl;
+        cout<<"There is no node with data "<<key<<endl;
         return start;
     }
     else{
@@ -56,57 +76,70 @@ struct node *Insend(struct node *start,int x){
     while(temp->next!=NULL){
         temp=temp->next;
     }
-    p->next=NULL;
-    temp->next=p;
+    last = temp;
+    p->next=start;
+    last->next=p;
     return start;
 }
 
-struct node *Delbeg(struct node *start){
-    struct node *temp=start;
-    start=temp;
-    return temp->data;
+struct node* Delbeg(struct node* start){
+    if(start == NULL) return NULL;
+    struct node* temp = start;
+    start = start->next;
+    cout << "Deleted: " << temp->data << endl;
+    delete temp;
+    last->next=start;
+    return start;
 }
 
 struct node *Delend(struct node *start){
-    struct node *temp=start;
     struct node *PTR=start;
-    if(PTR==Null){
+    if(PTR==NULL){
         cout<<"There is nothing to delete"<<endl;
     }
     else if(PTR->next==NULL){
         Delbeg(start);
     }
     else{
-    while(PTR->next!=NULL){
-        temp=PTR;
+    while(PTR->next!=last){
         PTR=PTR->next;
     }
-    temp->next=NULL;
-    return  PTR->data;
+    PTR->next=start;
+    cout<< "Data deleted is "<<last->data<<endl;
+    last = PTR;
+    return  start;
     }
 }
 
 struct node *Delafter(struct node *start,int key){
     struct node *temp=start;
     while(temp!=NULL && temp->data!=key){
-        if(temp==NULL){
-            cout<<"There os nothing to delete"<<endl;
-        }
-        else{
-            
+        temp=temp->next;
+    }
+    if(temp==NULL){
+        cout<<"There is nothing to delete"<<endl;
+    }
+    else{
+        struct node* toDel = temp->next;
+        if(toDel != NULL){
+            temp->next = toDel->next;
+            delete toDel;
         }
     }
 }
 
+int z;
 int main(){
     int a,x;
     do{
     cout<<"Enter your choice"<<endl;
-    cout<<"1-> Traversal \n2-> Insert at start \n3-> Insertion after a node \n4-> Insertion at the end \n5-> Exit"<<endl;
+    cout<<"1-> Traversal and Element counting \n2-> Insert at start \n3-> Insertion after a node \n4-> Insertion at the end \n5-> Delete at begin \n6-> Delete at end \n7-> Delete after a node \n8-> Search the element \n9-> Exit"<<endl;
     cin>>a;
     switch (a){
     case 1:
-        Travaersal(start);
+        Traversal(start);
+        start = count(start);
+        cout<<"The no. of elements in the structure is :- "<<cnt<<endl;
         break;
     case 2:
         cout<<"Enter the data to insert"<<endl;
@@ -130,21 +163,26 @@ int main(){
         cout<<"Data inserted";
         break;
     case 5:
-        int z = Delbeg(start);
+        start = Delbeg(start);
         cout<<"The element deleted from start is:  "<<z;
         break;
     case 6:
-        int z = Delend(start);
+        start = Delend(start);
         cout<<"The element deleted from end is:  "<<z;
         break;
     case 7:
         cout<<"Enter the element after you want to delete:  "<<endl;
         cin>>x;
-        int z = Delafter(start,x)
+        start = Delafter(start,x);
         cout<<"The element deleted is:  "<<z<<endl;
     case 8:
+        cout<<"Enter the element you want to search: "<<endl;
+        cin>>x;
+        search(start,x);
+    case 9:
         cout<<"Entered a wrong value";
         break;
     }
 }while(a!=8);
+return 0;
 }
