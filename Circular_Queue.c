@@ -1,71 +1,76 @@
-#include<stdio.h>
-int f=-1;
-int r=-1;
-void Enqueue(int a[],int n,int ele){
-    if(f==-1 && r==-1){
-        f=r=0;
-        a[r]=ele;
-    }
-    else if((r+1)%n == f){
+#include <stdio.h>
+int front = -1, rear = -1;
+
+void Enqueue(int a[], int n, int ele) {
+    if ((front == 0 && rear == n - 1) || (rear + 1) % n == front) {
         printf("Overflow\n");
+        return;
     }
-    else{
-        r=(r+1)%n;
-        a[r]=ele;
-    }
+    if (front == -1)
+        front = rear = 0;
+    else
+        rear = (rear + 1) % n;
+
+    a[rear] = ele;
+    printf("%d inserted.\n", ele);
 }
 
-void Dequeue(int a[],int n){
-    if(f==-1 && r==-1){
+void Dequeue(int a[], int n){
+    if (front == -1){
         printf("Underflow\n");
+        return;
     }
-    else{
-        printf("Element deleted is: ");
-        printf("%d",a[f]);
-        f=(f+1)%n;
-    }printf("\n");
+    printf("Element deleted is: %d\n", a[front]);
+    if (front == rear)
+        front = rear = -1;
+    else
+        front = (front + 1) % n;
 }
 
-void Display(int a[],int n){
-    int i;
-    if(r==-1){
-        printf("Underflow\n");
+void Display(int a[], int n) {
+    if (front == -1) {
+        printf("Queue is empty.\n");
+        return;
     }
-    else{
-        printf("The elements are: ");
-        for(i=f;i!=r;i=(i+1)%n){
-            printf("%d\t",a[i]);
-        }
-        printf("%d",a[i]);
-        printf("\n");
+    printf("Queue elements: ");
+    int i = front;
+    while (1) {
+        printf("%d ", a[i]);
+        if (i == rear)
+            break;
+        i = (i + 1) % n;
     }
+    printf("\n");
 }
 
-int main(){
+int main() {
     int n;
-    printf("Enter the size of the array:");
-    scanf("%d",&n);
+    printf("Enter the size of the circular queue: ");
+    scanf("%d", &n);
     int a[n];
-    int choice,ele;
-    do{
-         printf("1.Insertion\n2.Deletion\n3.Display\n4.Exit\n");
-         printf("Enter your choice : ");
-         scanf("%d",&choice);
-         switch(choice){
+    int choice, ele;
+    do {
+        printf("\n1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
             case 1:
-                printf("Enter the element you want to insert: ");
-                scanf("%d",&ele);
-                Enqueue(a,n,ele);
+                printf("Enter element to insert: ");
+                scanf("%d", &ele);
+                Enqueue(a, n, ele);
                 break;
             case 2:
-                Dequeue(a,n);
+                Dequeue(a, n);
                 break;
             case 3:
-                Display(a,n);
+                Display(a, n);
                 break;
             case 4:
-                printf("Exitting the code...");
+                printf("Exiting program...\n");
                 break;
-         }
-    }while(choice!=4);
+            default:
+                printf("Invalid choice.\n");
+        }
+    } while (choice != 4);
+    return 0;
 }
